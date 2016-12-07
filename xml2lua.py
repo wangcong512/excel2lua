@@ -110,14 +110,14 @@ def parseXml(path_name):
 			tab = child.find("{urn:schemas-microsoft-com:office:spreadsheet}Table")
 			#表数据
 			#print tab
-			row_data = {}
+			row_data = []
 			x = 0
 			y = 0
 			for row in tab.findall("{urn:schemas-microsoft-com:office:spreadsheet}Row"):
 				#print row
 				if row.tag == "{urn:schemas-microsoft-com:office:spreadsheet}Row":
 					#print row
-					colum_data = {}
+					colum_data = []
 					
 					y = 0
 					for cell in row.findall("{urn:schemas-microsoft-com:office:spreadsheet}Cell"):
@@ -132,11 +132,14 @@ def parseXml(path_name):
 							for data in cell.findall("{urn:schemas-microsoft-com:office:spreadsheet}Data"):
 								#print data.text,"\t",
 								text = data.text
-						colum_data[y] = text
+						while len(colum_data) < y:
+							colum_data.insert(y,text)
+							pass
+						colum_data.insert(y,text)
 						y += 1
 
 					#print "\n",
-					row_data[x] = colum_data
+					row_data.insert(x,colum_data)
 					x += 1
 					
 				#print
